@@ -35,10 +35,25 @@ Commit the work so we can tinker freely.
      - Programming errors & edge cases
     
 10) Testing commands
-    - All tests | npm test
-    - Passing tests | npx jest --verbose src/claims-processor.test.ts
-    - Failing tests | npx jest --verbose src/claims-processor.failing.test.ts
+   - All tests | npm test
+   - Passing tests | npx jest --verbose src/claims-processor.test.ts
+   - Failing tests | npx jest --verbose src/claims-processor.failing.test.ts
 
 11) Running commands
-    - npm start (won't do anything just validates the project runs)
-    - npm build (builds project to dist folder)
+   - npm start (won't do anything just validates the project runs)
+   - npm build (builds project to dist folder)
+
+12) Improvements & Next Steps | Depends on target userbase so I will assume this is customer-facing and CI/CD is already set up in these notes.
+   - Create a frontend to view Policy Info { searchbar for policyId, div for policy info (coverage & deductible), Submit a Claim button to redirect to claims page}
+   - Create a Claim forms page to submit a claim, based off of searched policyId, in the forms add a dropdown for IncidentType with validation based upon Policy.coveredIncidents and disable the Submit Claim button unless Policy.coveredIncidents.includes(Claim.incidentType) && isPolicyActive - bonus points if I can just pull the Policy.startDate and Policy.endDate and disable any date selection outside of those dates. 
+   - User feedback when claims have been submitted and also when claims have been approved or denied
+   - Set up backend so I can connect to a db
+   - create a signup & login page
+   - add auth
+   - add user specific functionality to current code base ( admin can view all, user can only view their own etc )
+   - quick vulnerability scan / pen test ( nothing crazy just try to test for sql injections, brute force logins, cookie manipulation ) if nothing then start sprucing up the frontend
+   - add accessibility / a11y ( keyboard friendly, enlargement animations on focus, speech to text support )
+   - themes (light/dark mode)
+   - SEO (I mean, we always want more business.. right?)
+   - Dev Ops wise have a backup site hosted and traffic control features like load balancing, page caching, cloud backups / scaling (expensive could just host our own servers)
+     
