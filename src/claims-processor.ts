@@ -56,5 +56,65 @@ class ClaimsProcessor {
         return policy.coveredIncidents.includes(incidentType);
     }
 
+    private calculatePayout( amountClaimed: number, deductible: number, coverageLimit: number): number {
+        const rawPayout = amountClaimed - deductible;
 
+        if (rawPayout <= 0) {
+            return 0;
+        }
+
+        return Math.min(rawPayout, coverageLimit);
+    }
+
+    public evaluateClaim(claim: Claim): ClaimResult {
+        // find the policy from claim
+        const policy = this.findPolicy(claim.policyId);
+        if (!policy) {
+            return {
+                approved: false,
+                payout: 0,
+                reasonCode: ReasonCode.POLICY_NOT_FOUND
+            };
+        }
+
+        // check if the policy is still active from claim's incident date
+        if (!this.isPolicyActive(policy, claim.incidentDate)) {
+            return {
+                approved: false,
+                payout: 0,
+                reasonCode: ReasonCode.POLICY_INACTIVE
+            };
+        }
+
+        // check if the incident is covered through their policy
+        if(!this.isIncidentCovered(policy, claim.incidentType)) {
+            return {
+                approved: false,
+                payout: 0,
+                reasonCode: ReasonCode.NOT_COVERED
+            };
+        }
+
+        // calculate payout from claim
+        const payout = this.calculatePayout(
+            claim.amountClaimed,
+            policy.deductible,
+            policy.coverageLimit
+        );
+        // I assume they can still file an at fault claim but dont recieve a payout so there is a record of it but no payout from insurance
+        if (payout === 0) {
+            return {
+                approved: true,
+                payout: 0,
+                reasonCode: ReasonCode.ZERO_PAYOUT
+            }
+        }
+
+        // if the policy was found, is active, is covered, and isnt over coverage limit return approved
+        return {
+            approved: true,
+            payout,
+            reasonCode: ReasonCode.APPROVED
+        }
+    }
 }

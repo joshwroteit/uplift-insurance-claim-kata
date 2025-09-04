@@ -1,14 +1,16 @@
 {
   "name": "uplift-insurance-claim-kata",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Insurance claim processor tdd with jest",
+  "main": "dist/claims-processor.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/joshwroteit/uplift-insurance-claim-kata.git"
+    "build": "tsc",
+    "start": "node dist/claims-processor.js",
+    "dev": "ts-node src/claims-processor.ts",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "clean": "rm -rf dist"
   },
   "keywords": [],
   "author": "",
@@ -25,5 +27,18 @@
     "ts-jest": "^29.4.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "roots": ["<rootDir>/src"],
+    "testMatch": ["**/__tests__/**/*.ts", "**/*.test.ts"],
+    "collectCoverageFrom": [
+      "src/**/*.ts",
+      "!src/**/*.test.ts",
+      "!src/**/index.ts"
+    ],
+    "coverageDirectory": "coverage",
+    "coverageReporters": ["text", "lcov", "html"]
   }
 }
