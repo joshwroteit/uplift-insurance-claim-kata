@@ -40,4 +40,5 @@ Commit the work so we can tinker freely.
     - Failing tests | npx jest --verbose src/claims-processor.failing.test.ts
 
 11) Running commands
-    - npm 
+    - npm start (won't do anything just validates the project runs)
+    - npm build (builds project to dist folder)
