@@ -29,7 +29,7 @@ interface ClaimResult {
     reasonCode: string;
 }
 
-// reason codes to return to use with ClaimResult
+// reason codes to return to use with ClaimResult from kata, also add policy not found so we get an error code if searching jibberish
 enum ReasonCode {
     APPROVED = 'APPROVED',
     POLICY_INACTIVE = 'POLICY_INACTIVE',
@@ -42,5 +42,19 @@ enum ReasonCode {
 class ClaimsProcessor {
     // need a policy obj passed in to process a claim so put it in the struct
     constructor(private policies: Policy[]) {}
+
+    private findPolicy(policyId: string): Policy | undefined {
+        return this.policies.find(policy => policy.policyId === policyId);
+    }
+
+    // can they day one or last day file a claim? not sure 
+    private isPolicyActive(policy: Policy, incidentDate: Date): boolean {
+        return incidentDate >= policy.startDate && incidentDate <= policy.endDate;
+    }
+
+    private isIncidentCovered(policy: Policy, incidentType: IncidentType): boolean {
+        return policy.coveredIncidents.includes(incidentType);
+    }
+
 
 }
