@@ -27,18 +27,5 @@
     "ts-jest": "^29.4.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
-  },
-  "jest": {
-    "preset": "ts-jest",
-    "testEnvironment": "node",
-    "roots": ["<rootDir>/src"],
-    "testMatch": ["**/__tests__/**/*.ts", "**/*.test.ts"],
-    "collectCoverageFrom": [
-      "src/**/*.ts",
-      "!src/**/*.test.ts",
-      "!src/**/index.ts"
-    ],
-    "coverageDirectory": "coverage",
-    "coverageReporters": ["text", "lcov", "html"]
   }
 }
